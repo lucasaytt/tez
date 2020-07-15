@@ -270,7 +270,7 @@ public class ContainerRunnerImpl extends AbstractService implements ContainerRun
         new ExecutionContextImpl(localAddress.get().getHostName()), env, localDirs,
         workingDir, credentials, memoryPerExecutor, sharedExecutor);
     ListenableFuture<ContainerExecutionResult> future = executorService.submit(callable);
-    Futures.addCallback(future, new TaskRunnerCallback(request, callable));
+    Futures.addCallback(future, new TaskRunnerCallback(request, callable),GuavaShim.directExecutor());
   }
 
 

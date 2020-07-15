@@ -40,6 +40,7 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 
+import org.apache.tez.common.GuavaShim;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.hadoop.classification.InterfaceAudience;
@@ -137,7 +138,7 @@ public class RootInputInitializerManager {
       initializerMap.put(input.getName(), initializerWrapper);
       ListenableFuture<List<Event>> future = executor
           .submit(new InputInitializerCallable(initializerWrapper, dagUgi, appContext));
-      Futures.addCallback(future, createInputInitializerCallback(initializerWrapper));
+      Futures.addCallback(future, createInputInitializerCallback(initializerWrapper), GuavaShim.directExecutor());
     }
   }
 

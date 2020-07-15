@@ -35,6 +35,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.apache.tez.common.GuavaShim;
 import org.apache.tez.common.TezUtils;
 import org.apache.tez.dag.api.NamedEntityDescriptor;
 import org.apache.tez.dag.api.UserPayload;
@@ -323,7 +324,7 @@ public class MockDAGAppMaster extends DAGAppMaster {
             Worker worker = workers.remove();
             worker.setContainerData(cData);
             ListenableFuture<Void> future = executorService.submit(worker);
-            Futures.addCallback(future, worker.getCallback());            
+            Futures.addCallback(future, worker.getCallback(), GuavaShim.directExecutor());
           } else {
             containers.remove(cData.cId);
           }
